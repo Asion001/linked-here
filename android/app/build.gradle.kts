@@ -24,10 +24,15 @@ android {
         applicationId = "dev.asion.linked_here"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 24
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // Required by flutter_appauth for OAuth redirect
+        manifestPlaceholders += mapOf(
+            "appAuthRedirectScheme" to "dev.asion.linkedhere"
+        )
     }
 
     buildTypes {
