@@ -8,7 +8,10 @@ import 'package:linked_here/features/discovery/data/ble_repository.dart';
 part 'discovery_event.dart';
 part 'discovery_state.dart';
 
+/// Bloc managing BLE scanning and advertising for nearby LinkedIn
+/// profile discovery.
 class DiscoveryBloc extends Bloc<DiscoveryEvent, DiscoveryState> {
+  /// Creates a [DiscoveryBloc].
   DiscoveryBloc({
     required BleRepository bleRepository,
     required AuthRepository authRepository,

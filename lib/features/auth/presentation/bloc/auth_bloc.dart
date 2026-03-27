@@ -6,7 +6,12 @@ import 'package:linked_here/features/auth/data/auth_repository.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
+/// Bloc managing authentication state and LinkedIn OAuth flow.
+///
+/// Handles sign-in, sign-out, onboarding checks, and LinkedIn slug
+/// submission.
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  /// Creates an [AuthBloc].
   AuthBloc({required AuthRepository authRepository})
     : _authRepository = authRepository,
       super(const AuthState()) {

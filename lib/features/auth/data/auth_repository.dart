@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 /// Data model for the authenticated user's profile.
 class UserProfile {
+  /// Creates a [UserProfile].
   const UserProfile({
     required this.displayName,
     required this.email,
@@ -15,12 +16,22 @@ class UserProfile {
     this.profilePictureUrl,
   });
 
+  /// The user's full display name from LinkedIn.
   final String displayName;
+
+  /// The user's email address from LinkedIn.
   final String email;
+
+  /// The LinkedIn vanity slug (e.g. `john-doe`), entered manually.
   final String? linkedInSlug;
+
+  /// The full LinkedIn profile URL built from the [linkedInSlug].
   final String? linkedInUrl;
+
+  /// URL of the user's LinkedIn profile picture.
   final String? profilePictureUrl;
 
+  /// Returns a copy of this [UserProfile] with the given fields replaced.
   UserProfile copyWith({
     String? displayName,
     String? email,
@@ -41,6 +52,9 @@ class UserProfile {
 /// Repository handling LinkedIn OAuth2 authentication and local
 /// profile persistence.
 class AuthRepository {
+  /// Creates an [AuthRepository].
+  ///
+  /// All parameters are optional and injectable for testing.
   AuthRepository({
     FlutterAppAuth? appAuth,
     http.Client? httpClient,
