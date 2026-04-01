@@ -9,22 +9,16 @@ sealed class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// Check if the user is already signed in and onboarded.
+/// Check if the user is already onboarded.
 final class AuthCheckRequested extends AuthEvent {
   /// Creates an [AuthCheckRequested] event.
   const AuthCheckRequested();
 }
 
-/// User tapped "Sign in with LinkedIn".
-final class AuthLinkedInSignInRequested extends AuthEvent {
-  /// Creates an [AuthLinkedInSignInRequested] event.
-  const AuthLinkedInSignInRequested();
-}
-
-/// User submitted their LinkedIn profile URL during onboarding.
-final class AuthLinkedInSlugSubmitted extends AuthEvent {
-  /// Creates an [AuthLinkedInSlugSubmitted] event with the given [slug].
-  const AuthLinkedInSlugSubmitted(this.slug);
+/// User submitted their LinkedIn profile URL or slug.
+final class AuthProfileSubmitted extends AuthEvent {
+  /// Creates an [AuthProfileSubmitted] event with the given [slug].
+  const AuthProfileSubmitted(this.slug);
 
   /// The LinkedIn vanity slug the user entered.
   final String slug;

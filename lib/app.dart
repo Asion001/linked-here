@@ -4,7 +4,6 @@ import 'package:linked_here/core/theme/app_theme.dart';
 import 'package:linked_here/features/auth/data/auth_repository.dart';
 import 'package:linked_here/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:linked_here/features/auth/presentation/screens/login_screen.dart';
-import 'package:linked_here/features/auth/presentation/screens/profile_setup_screen.dart';
 import 'package:linked_here/features/discovery/data/ble_repository.dart';
 import 'package:linked_here/features/discovery/presentation/bloc/discovery_bloc.dart';
 import 'package:linked_here/features/discovery/presentation/screens/discovery_screen.dart';
@@ -40,9 +39,9 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => AuthBloc(
-              authRepository: widget.authRepository,
-            )..add(const AuthCheckRequested()),
+            create: (_) =>
+                AuthBloc(authRepository: widget.authRepository)
+                  ..add(const AuthCheckRequested()),
           ),
           BlocProvider(
             create: (_) => DiscoveryBloc(
@@ -73,7 +72,6 @@ class _AppShell extends StatelessWidget {
         return switch (state.status) {
           AuthStatus.initial || AuthStatus.loading => const _SplashScreen(),
           AuthStatus.unauthenticated || AuthStatus.error => const LoginScreen(),
-          AuthStatus.needsLinkedInSlug => const ProfileSetupScreen(),
           AuthStatus.authenticated => const _AuthenticatedShell(),
         };
       },
@@ -86,11 +84,7 @@ class _SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
 
@@ -105,10 +99,7 @@ class _AuthenticatedShell extends StatefulWidget {
 class _AuthenticatedShellState extends State<_AuthenticatedShell> {
   int _currentIndex = 0;
 
-  static const List<Widget> _screens = [
-    DiscoveryScreen(),
-    SettingsScreen(),
-  ];
+  static const List<Widget> _screens = [DiscoveryScreen(), SettingsScreen()];
 
   @override
   Widget build(BuildContext context) {

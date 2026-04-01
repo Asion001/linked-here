@@ -5,28 +5,8 @@ import 'package:bluetooth_low_energy/bluetooth_low_energy.dart';
 
 /// LinkedIn configuration constants.
 abstract final class LinkedInConfig {
-  /// LinkedIn OIDC discovery URL.
-  static const String discoveryUrl =
-      'https://www.linkedin.com/oauth/.well-known/openid-configuration';
-
-  /// LinkedIn userinfo endpoint.
-  static const String userinfoUrl = 'https://api.linkedin.com/v2/userinfo';
-
   /// LinkedIn profile base URL.
   static const String profileBaseUrl = 'https://www.linkedin.com/in/';
-
-  /// OAuth2 client ID — replace with your LinkedIn app's client ID.
-  static const String clientId = 'YOUR_LINKEDIN_CLIENT_ID';
-
-  /// OAuth2 redirect URL — must match LinkedIn developer portal config.
-  static const String redirectUrl = 'dev.asion.linkedhere://oauth2callback';
-
-  /// OAuth2 scopes to request.
-  static const List<String> scopes = [
-    'openid',
-    'profile',
-    'email',
-  ];
 }
 
 /// BLE configuration constants.
@@ -62,12 +42,6 @@ abstract final class PrefKeys {
   /// The user's LinkedIn profile URL.
   static const String linkedinUrl = 'linkedin_url';
 
-  /// The user's display name from LinkedIn.
+  /// The user's display name derived from the LinkedIn slug.
   static const String displayName = 'display_name';
-
-  /// The user's profile picture URL from LinkedIn.
-  static const String profilePictureUrl = 'profile_picture_url';
-
-  /// The user's email from LinkedIn.
-  static const String email = 'email';
 }

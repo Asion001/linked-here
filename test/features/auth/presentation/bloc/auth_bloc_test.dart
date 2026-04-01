@@ -16,15 +16,11 @@ void main() {
   group('AuthBloc', () {
     group('AuthCheckRequested', () {
       blocTest<AuthBloc, AuthState>(
-        'emits [loading, unauthenticated] when not onboarded and '
-        'no stored profile',
+        'emits [loading, unauthenticated] when not onboarded',
         build: () {
           when(
             () => mockAuthRepository.isOnboarded(),
           ).thenAnswer((_) async => false);
-          when(
-            () => mockAuthRepository.getStoredProfile(),
-          ).thenAnswer((_) async => null);
           return AuthBloc(authRepository: mockAuthRepository);
         },
         act: (bloc) => bloc.add(const AuthCheckRequested()),
@@ -35,40 +31,10 @@ void main() {
       );
 
       blocTest<AuthBloc, AuthState>(
-        'emits [loading, needsLinkedInSlug] when not onboarded but '
-        'has stored profile',
-        build: () {
-          const profile = UserProfile(
-            displayName: 'Test User',
-            email: 'test@example.com',
-          );
-          when(
-            () => mockAuthRepository.isOnboarded(),
-          ).thenAnswer((_) async => false);
-          when(
-            () => mockAuthRepository.getStoredProfile(),
-          ).thenAnswer((_) async => profile);
-          return AuthBloc(authRepository: mockAuthRepository);
-        },
-        act: (bloc) => bloc.add(const AuthCheckRequested()),
-        expect: () => [
-          const AuthState(status: AuthStatus.loading),
-          const AuthState(
-            status: AuthStatus.needsLinkedInSlug,
-            profile: UserProfile(
-              displayName: 'Test User',
-              email: 'test@example.com',
-            ),
-          ),
-        ],
-      );
-
-      blocTest<AuthBloc, AuthState>(
         'emits [loading, authenticated] when onboarded with profile',
         build: () {
           const profile = UserProfile(
             displayName: 'Test User',
-            email: 'test@example.com',
             linkedInSlug: 'test-user',
             linkedInUrl: 'https://www.linkedin.com/in/test-user',
           );
@@ -87,38 +53,54 @@ void main() {
             status: AuthStatus.authenticated,
             profile: UserProfile(
               displayName: 'Test User',
-              email: 'test@example.com',
               linkedInSlug: 'test-user',
               linkedInUrl: 'https://www.linkedin.com/in/test-user',
             ),
           ),
         ],
       );
+
+      blocTest<AuthBloc, AuthState>(
+        'emits [loading, unauthenticated] when onboarded but no '
+        'stored profile',
+        build: () {
+          when(
+            () => mockAuthRepository.isOnboarded(),
+          ).thenAnswer((_) async => true);
+          when(
+            () => mockAuthRepository.getStoredProfile(),
+          ).thenAnswer((_) async => null);
+          return AuthBloc(authRepository: mockAuthRepository);
+        },
+        act: (bloc) => bloc.add(const AuthCheckRequested()),
+        expect: () => [
+          const AuthState(status: AuthStatus.loading),
+          const AuthState(status: AuthStatus.unauthenticated),
+        ],
+      );
     });
 
-    group('AuthLinkedInSlugSubmitted', () {
+    group('AuthProfileSubmitted', () {
       blocTest<AuthBloc, AuthState>(
-        'emits [loading, authenticated] when slug saved successfully',
+        'emits [loading, authenticated] when profile saved successfully',
         build: () {
-          const updatedProfile = UserProfile(
+          const profile = UserProfile(
             displayName: 'Test User',
-            email: 'test@example.com',
             linkedInSlug: 'test-user',
             linkedInUrl: 'https://www.linkedin.com/in/test-user',
           );
           when(
-            () => mockAuthRepository.saveLinkedInSlug('test-user'),
-          ).thenAnswer((_) async => updatedProfile);
+            () => mockAuthRepository.saveProfile('test-user'),
+          ).thenAnswer((_) async => profile);
           return AuthBloc(authRepository: mockAuthRepository);
         },
-        act: (bloc) => bloc.add(const AuthLinkedInSlugSubmitted('test-user')),
+        act: (bloc) => bloc.add(const AuthProfileSubmitted('test-user')),
         expect: () => [
           const AuthState(status: AuthStatus.loading),
           const AuthState(
             status: AuthStatus.authenticated,
             profile: UserProfile(
               displayName: 'Test User',
-              email: 'test@example.com',
               linkedInSlug: 'test-user',
               linkedInUrl: 'https://www.linkedin.com/in/test-user',
             ),
@@ -127,27 +109,19 @@ void main() {
       );
 
       blocTest<AuthBloc, AuthState>(
-        'emits [loading, error] when slug save fails',
+        'emits [loading, error] when profile save fails',
         build: () {
           when(
-            () => mockAuthRepository.saveLinkedInSlug('bad'),
-          ).thenThrow(Exception('No profile found'));
+            () => mockAuthRepository.saveProfile('bad'),
+          ).thenThrow(Exception('Save failed'));
           return AuthBloc(authRepository: mockAuthRepository);
         },
-        act: (bloc) => bloc.add(const AuthLinkedInSlugSubmitted('bad')),
+        act: (bloc) => bloc.add(const AuthProfileSubmitted('bad')),
         expect: () => [
           const AuthState(status: AuthStatus.loading),
           isA<AuthState>()
-              .having(
-                (s) => s.status,
-                'status',
-                AuthStatus.error,
-              )
-              .having(
-                (s) => s.errorMessage,
-                'errorMessage',
-                isNotNull,
-              ),
+              .having((s) => s.status, 'status', AuthStatus.error)
+              .having((s) => s.errorMessage, 'errorMessage', isNotNull),
         ],
       );
     });
@@ -160,9 +134,7 @@ void main() {
           return AuthBloc(authRepository: mockAuthRepository);
         },
         act: (bloc) => bloc.add(const AuthSignOutRequested()),
-        expect: () => [
-          const AuthState(status: AuthStatus.unauthenticated),
-        ],
+        expect: () => [const AuthState(status: AuthStatus.unauthenticated)],
       );
     });
   });
