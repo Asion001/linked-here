@@ -39,9 +39,9 @@ class _AppState extends State<App> {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (_) => AuthBloc(
-              authRepository: widget.authRepository,
-            )..add(const AuthCheckRequested()),
+            create: (_) =>
+                AuthBloc(authRepository: widget.authRepository)
+                  ..add(const AuthCheckRequested()),
           ),
           BlocProvider(
             create: (_) => DiscoveryBloc(
@@ -71,8 +71,7 @@ class _AppShell extends StatelessWidget {
       builder: (context, state) {
         return switch (state.status) {
           AuthStatus.initial || AuthStatus.loading => const _SplashScreen(),
-          AuthStatus.unauthenticated || AuthStatus.error =>
-            const LoginScreen(),
+          AuthStatus.unauthenticated || AuthStatus.error => const LoginScreen(),
           AuthStatus.authenticated => const _AuthenticatedShell(),
         };
       },
@@ -85,11 +84,7 @@ class _SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    return const Scaffold(body: Center(child: CircularProgressIndicator()));
   }
 }
 
@@ -104,10 +99,7 @@ class _AuthenticatedShell extends StatefulWidget {
 class _AuthenticatedShellState extends State<_AuthenticatedShell> {
   int _currentIndex = 0;
 
-  static const List<Widget> _screens = [
-    DiscoveryScreen(),
-    SettingsScreen(),
-  ];
+  static const List<Widget> _screens = [DiscoveryScreen(), SettingsScreen()];
 
   @override
   Widget build(BuildContext context) {

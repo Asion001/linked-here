@@ -94,8 +94,7 @@ void main() {
           ).thenAnswer((_) async => profile);
           return AuthBloc(authRepository: mockAuthRepository);
         },
-        act: (bloc) =>
-            bloc.add(const AuthProfileSubmitted('test-user')),
+        act: (bloc) => bloc.add(const AuthProfileSubmitted('test-user')),
         expect: () => [
           const AuthState(status: AuthStatus.loading),
           const AuthState(
@@ -121,16 +120,8 @@ void main() {
         expect: () => [
           const AuthState(status: AuthStatus.loading),
           isA<AuthState>()
-              .having(
-                (s) => s.status,
-                'status',
-                AuthStatus.error,
-              )
-              .having(
-                (s) => s.errorMessage,
-                'errorMessage',
-                isNotNull,
-              ),
+              .having((s) => s.status, 'status', AuthStatus.error)
+              .having((s) => s.errorMessage, 'errorMessage', isNotNull),
         ],
       );
     });
@@ -139,15 +130,11 @@ void main() {
       blocTest<AuthBloc, AuthState>(
         'emits [unauthenticated] when sign out requested',
         build: () {
-          when(
-            () => mockAuthRepository.signOut(),
-          ).thenAnswer((_) async {});
+          when(() => mockAuthRepository.signOut()).thenAnswer((_) async {});
           return AuthBloc(authRepository: mockAuthRepository);
         },
         act: (bloc) => bloc.add(const AuthSignOutRequested()),
-        expect: () => [
-          const AuthState(status: AuthStatus.unauthenticated),
-        ],
+        expect: () => [const AuthState(status: AuthStatus.unauthenticated)],
       );
     });
   });

@@ -85,8 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: _controller,
                     decoration: const InputDecoration(
                       labelText: 'LinkedIn Profile URL',
-                      hintText:
-                          'https://www.linkedin.com/in/your-name',
+                      hintText: 'https://www.linkedin.com/in/your-name',
                       prefixIcon: Icon(Icons.link),
                     ),
                     keyboardType: TextInputType.url,
@@ -114,8 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const Spacer(),
                   BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
-                      final isLoading =
-                          state.status == AuthStatus.loading;
+                      final isLoading = state.status == AuthStatus.loading;
 
                       return FilledButton.icon(
                         onPressed: isLoading ? null : _submit,
@@ -128,9 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               )
                             : const Icon(Icons.arrow_forward),
-                        label: Text(
-                          isLoading ? 'Saving...' : 'Get Started',
-                        ),
+                        label: Text(isLoading ? 'Saving...' : 'Get Started'),
                       );
                     },
                   ),

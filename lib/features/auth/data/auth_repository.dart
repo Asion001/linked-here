@@ -97,10 +97,9 @@ class AuthRepository {
     return slug
         .split('-')
         .map(
-          (word) =>
-              word.isEmpty
-                  ? ''
-                  : '${word[0].toUpperCase()}${word.substring(1)}',
+          (word) => word.isEmpty
+              ? ''
+              : '${word[0].toUpperCase()}${word.substring(1)}',
         )
         .join(' ');
   }
