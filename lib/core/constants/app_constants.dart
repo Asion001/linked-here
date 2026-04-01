@@ -15,8 +15,11 @@ abstract final class LinkedInConfig {
   /// LinkedIn profile base URL.
   static const String profileBaseUrl = 'https://www.linkedin.com/in/';
 
-  /// OAuth2 client ID — replace with your LinkedIn app's client ID.
-  static const String clientId = 'YOUR_LINKEDIN_CLIENT_ID';
+  /// OAuth2 client ID — provided at build time via
+  /// `--dart-define=LINKEDIN_CLIENT_ID=<your-id>`.
+  static const String clientId = String.fromEnvironment(
+    'LINKEDIN_CLIENT_ID',
+  );
 
   /// OAuth2 redirect URL — must match LinkedIn developer portal config.
   static const String redirectUrl = 'dev.asion.linkedhere://oauth2callback';
