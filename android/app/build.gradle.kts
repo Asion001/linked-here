@@ -28,11 +28,6 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
-
-        // Required by flutter_appauth for OAuth redirect
-        manifestPlaceholders += mapOf(
-            "appAuthRedirectScheme" to "dev.asion.linkedhere"
-        )
     }
 
     buildTypes {

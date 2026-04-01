@@ -8,16 +8,13 @@ enum AuthStatus {
   /// An authentication operation is in progress.
   loading,
 
-  /// The user is fully authenticated and onboarded.
+  /// The user has set up their profile.
   authenticated,
 
-  /// The user is signed in but has not yet entered their LinkedIn slug.
-  needsLinkedInSlug,
-
-  /// The user is not signed in.
+  /// The user has not set up their profile yet.
   unauthenticated,
 
-  /// An authentication error occurred.
+  /// An error occurred.
   error,
 }
 
@@ -33,7 +30,7 @@ final class AuthState extends Equatable {
   /// The current authentication status.
   final AuthStatus status;
 
-  /// The authenticated user's profile, if available.
+  /// The user's profile, if available.
   final UserProfile? profile;
 
   /// A human-readable error message, if [status] is [AuthStatus.error].

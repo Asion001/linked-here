@@ -47,8 +47,8 @@ void main() {
           when(() => mockAuthRepository.getStoredProfile()).thenAnswer(
             (_) async => const UserProfile(
               displayName: 'Test',
-              email: 'test@test.com',
               linkedInSlug: 'test-user',
+              linkedInUrl: 'https://www.linkedin.com/in/test-user',
             ),
           );
           return DiscoveryBloc(

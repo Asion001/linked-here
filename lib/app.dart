@@ -4,7 +4,6 @@ import 'package:linked_here/core/theme/app_theme.dart';
 import 'package:linked_here/features/auth/data/auth_repository.dart';
 import 'package:linked_here/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:linked_here/features/auth/presentation/screens/login_screen.dart';
-import 'package:linked_here/features/auth/presentation/screens/profile_setup_screen.dart';
 import 'package:linked_here/features/discovery/data/ble_repository.dart';
 import 'package:linked_here/features/discovery/presentation/bloc/discovery_bloc.dart';
 import 'package:linked_here/features/discovery/presentation/screens/discovery_screen.dart';
@@ -72,8 +71,8 @@ class _AppShell extends StatelessWidget {
       builder: (context, state) {
         return switch (state.status) {
           AuthStatus.initial || AuthStatus.loading => const _SplashScreen(),
-          AuthStatus.unauthenticated || AuthStatus.error => const LoginScreen(),
-          AuthStatus.needsLinkedInSlug => const ProfileSetupScreen(),
+          AuthStatus.unauthenticated || AuthStatus.error =>
+            const LoginScreen(),
           AuthStatus.authenticated => const _AuthenticatedShell(),
         };
       },

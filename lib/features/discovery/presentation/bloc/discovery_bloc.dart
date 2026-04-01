@@ -42,9 +42,9 @@ class DiscoveryBloc extends Bloc<DiscoveryEvent, DiscoveryState> {
 
       // Start advertising our own profile
       final userProfile = await _authRepository.getStoredProfile();
-      if (userProfile?.linkedInSlug != null) {
+      if (userProfile != null) {
         await _bleRepository.startAdvertising(
-          slug: userProfile!.linkedInSlug!,
+          slug: userProfile.linkedInSlug,
           displayName: userProfile.displayName,
         );
       }

@@ -38,18 +38,17 @@ class SettingsScreen extends StatelessWidget {
               if (profile != null) ...[
                 _ProfileHeader(profile: profile),
                 const Divider(height: 32),
-                if (profile.linkedInSlug != null)
-                  ListTile(
-                    leading: const Icon(Icons.open_in_new),
-                    title: const Text('View LinkedIn Profile'),
-                    subtitle: Text(
-                      'linkedin.com/in/${profile.linkedInSlug}',
-                    ),
-                    onTap: () => _openOwnProfile(
-                      context,
-                      profile.linkedInSlug!,
-                    ),
+                ListTile(
+                  leading: const Icon(Icons.open_in_new),
+                  title: const Text('View LinkedIn Profile'),
+                  subtitle: Text(
+                    'linkedin.com/in/${profile.linkedInSlug}',
                   ),
+                  onTap: () => _openOwnProfile(
+                    context,
+                    profile.linkedInSlug,
+                  ),
+                ),
                 const Divider(height: 32),
               ],
               ListTile(
@@ -114,19 +113,14 @@ class _ProfileHeader extends StatelessWidget {
           CircleAvatar(
             radius: 32,
             backgroundColor: theme.colorScheme.primaryContainer,
-            backgroundImage: profile.profilePictureUrl != null
-                ? NetworkImage(profile.profilePictureUrl!)
-                : null,
-            child: profile.profilePictureUrl == null
-                ? Text(
-                    profile.displayName.isNotEmpty
-                        ? profile.displayName[0].toUpperCase()
-                        : '?',
-                    style: theme.textTheme.headlineMedium?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                    ),
-                  )
-                : null,
+            child: Text(
+              profile.displayName.isNotEmpty
+                  ? profile.displayName[0].toUpperCase()
+                  : '?',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                color: theme.colorScheme.onPrimaryContainer,
+              ),
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -137,15 +131,13 @@ class _ProfileHeader extends StatelessWidget {
                   profile.displayName,
                   style: theme.textTheme.titleLarge,
                 ),
-                if (profile.email.isNotEmpty) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    profile.email,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
+                const SizedBox(height: 4),
+                Text(
+                  'linkedin.com/in/${profile.linkedInSlug}',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
                   ),
-                ],
+                ),
               ],
             ),
           ),
